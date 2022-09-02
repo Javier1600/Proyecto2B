@@ -13,49 +13,48 @@ using AgendamientoCitas.Models.Clases;
 
 namespace AgendamientoCitas.Controllers
 {
-    [RoutePrefix("Especialidad")]
-    public class EspecialidadsController : ApiController
+    [RoutePrefix("Doctores")]
+    public class DoctorsController : ApiController
     {
         private HospitalDB db = new HospitalDB();
 
         [HttpGet]
         [Route("")]
-        public IQueryable<Especialidad> GetEspecialidad()
+        public IQueryable<Doctor> GetDoctor()
         {
-            return db.Especialidad;
+            return db.Doctor;
         }
+
         [HttpGet]
         [Route("{id}")]
-        // GET: api/Especialidads/5
-        [ResponseType(typeof(Especialidad))]
-        public IHttpActionResult GetEspecialidad(int id)
+        [ResponseType(typeof(Doctor))]
+        public IHttpActionResult GetDoctor(int id)
         {
-            Especialidad Especialidad = db.Especialidad.Find(id);
-            if (Especialidad == null)
+            Doctor Doctor = db.Doctor.Find(id);
+            if (Doctor == null)
             {
                 return NotFound();
             }
 
-            return Ok(Especialidad);
+            return Ok(Doctor);
         }
 
         [HttpPut]
         [Route("{id}")]
-        // PUT: api/Especialidads/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutEspecialidad(int id, Especialidad Especialidad)
+        public IHttpActionResult PutDoctor(int id, Doctor Doctor)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(Constantes.MensajeError);
+                return BadRequest(ModelState);
             }
 
-            if (id != Especialidad.idEspecialidad)
+            if (id != Doctor.idUsuario)
             {
-                return BadRequest(Constantes.MensajeError);
+                return BadRequest();
             }
 
-            db.Entry(Especialidad).State = EntityState.Modified;
+            db.Entry(Doctor).State = EntityState.Modified;
 
             try
             {
@@ -63,7 +62,7 @@ namespace AgendamientoCitas.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EspecialidadExists(id))
+                if (!DoctorExists(id))
                 {
                     return NotFound();
                 }
@@ -78,32 +77,47 @@ namespace AgendamientoCitas.Controllers
 
         [HttpPost]
         [Route("")]
-        // POST: api/Especialidads
-        [ResponseType(typeof(Especialidad))]
-        public IHttpActionResult PostEspecialidad(Especialidad Especialidad)
+        [ResponseType(typeof(Doctor))]
+        public IHttpActionResult PostDoctor(Doctor Doctor)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Especialidad.Add(Especialidad);
-            db.SaveChanges();
+            db.Doctor.Add(Doctor);
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                if (DoctorExists(Doctor.idUsuario))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return Ok(new MensajesWeb(Constantes.MensajeExitoPost));
         }
+
         [HttpDelete]
         [Route("{id}")]
-        [ResponseType(typeof(Especialidad))]
-        public IHttpActionResult DeleteEspecialidad(int id)
+        [ResponseType(typeof(Doctor))]
+        public IHttpActionResult DeleteDoctor(int id)
         {
-            Especialidad Especialidad = db.Especialidad.Find(id);
-            if (Especialidad == null)
+            Doctor Doctor = db.Doctor.Find(id);
+            if (Doctor == null)
             {
                 return NotFound();
             }
 
-            db.Especialidad.Remove(Especialidad);
+            db.Doctor.Remove(Doctor);
             db.SaveChanges();
 
             return Ok(new MensajesWeb(Constantes.MensajeExitoDelete));
@@ -118,9 +132,9 @@ namespace AgendamientoCitas.Controllers
             base.Dispose(disposing);
         }
 
-        private bool EspecialidadExists(int id)
+        private bool DoctorExists(int id)
         {
-            return db.Especialidad.Count(e => e.idEspecialidad == id) > 0;
+            return db.Doctor.Count(e => e.idUsuario == id) > 0;
         }
     }
 }

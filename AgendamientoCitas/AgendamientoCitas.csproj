@@ -162,9 +162,13 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\CitasController.cs" />
     <Compile Include="Controllers\ConsultoriosController.cs" />
+    <Compile Include="Controllers\DoctorsController.cs" />
+    <Compile Include="Controllers\EnfermerasController.cs" />
     <Compile Include="Controllers\EspecialidadsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\RolController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -172,12 +176,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Clases\Constantes.cs" />
+    <Compile Include="Models\Clases\LoginRequest.cs" />
     <Compile Include="Models\Clases\MensajesWeb.cs" />
     <Compile Include="Models\HospitalDB.cs" />
-    <Compile Include="Models\tblCita.cs" />
+    <Compile Include="Models\Cita.cs" />
     <Compile Include="Models\Consultorio.cs" />
-    <Compile Include="Models\tblDoctor.cs" />
-    <Compile Include="Models\tblEnfermera.cs" />
+    <Compile Include="Models\Doctor.cs" />
+    <Compile Include="Models\Enfermera.cs" />
     <Compile Include="Models\Especialidad.cs" />
     <Compile Include="Models\Rol.cs" />
     <Compile Include="Models\Usuario.cs" />

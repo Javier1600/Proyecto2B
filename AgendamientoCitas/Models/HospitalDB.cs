@@ -13,17 +13,17 @@ namespace AgendamientoCitas.Models
             base.Configuration.ProxyCreationEnabled = false;
         }
 
-        public virtual DbSet<tblCita> tblCita { get; set; }
+        public virtual DbSet<Cita> Cita { get; set; }
         public virtual DbSet<Consultorio> Consultorio { get; set; }
-        public virtual DbSet<tblDoctor> tblDoctor { get; set; }
-        public virtual DbSet<tblEnfermera> tblEnfermera { get; set; }
+        public virtual DbSet<Doctor> Doctor { get; set; }
+        public virtual DbSet<Enfermera> Enfermera { get; set; }
         public virtual DbSet<Especialidad> Especialidad { get; set; }
         public virtual DbSet<Rol> Rol { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<tblCita>()
+            modelBuilder.Entity<Cita>()
                 .Property(e => e.hora)
                 .HasPrecision(1);
 
@@ -31,27 +31,14 @@ namespace AgendamientoCitas.Models
                 .Property(e => e.numeroConsultorio)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<tblDoctor>()
-                .HasMany(e => e.tblCita)
-                .WithOptional(e => e.tblDoctor)
-                .HasForeignKey(e => e.idDoctor);
 
-            modelBuilder.Entity<tblDoctor>()
-                .HasOptional(e => e.tblEnfermera)
-                .WithRequired(e => e.tblDoctor);
-
-            modelBuilder.Entity<tblEnfermera>()
+            modelBuilder.Entity<Enfermera>()
                 .Property(e => e.nombre)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Especialidad>()
                 .Property(e => e.nombreEspecialidad)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<Especialidad>()
-                .HasMany(e => e.tblDoctor)
-                .WithRequired(e => e.tblEspecialidad)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Rol>()
                 .Property(e => e.nombreRol)

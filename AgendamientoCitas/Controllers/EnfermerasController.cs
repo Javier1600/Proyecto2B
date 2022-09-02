@@ -13,49 +13,48 @@ using AgendamientoCitas.Models.Clases;
 
 namespace AgendamientoCitas.Controllers
 {
-    [RoutePrefix("Especialidad")]
-    public class EspecialidadsController : ApiController
+    [RoutePrefix("Enfermeras")]
+    public class EnfermerasController : ApiController
     {
         private HospitalDB db = new HospitalDB();
 
         [HttpGet]
         [Route("")]
-        public IQueryable<Especialidad> GetEspecialidad()
+        public IQueryable<Enfermera> GetEnfermera()
         {
-            return db.Especialidad;
+            return db.Enfermera;
         }
+
         [HttpGet]
         [Route("{id}")]
-        // GET: api/Especialidads/5
-        [ResponseType(typeof(Especialidad))]
-        public IHttpActionResult GetEspecialidad(int id)
+        [ResponseType(typeof(Enfermera))]
+        public IHttpActionResult GetEnfermera(int id)
         {
-            Especialidad Especialidad = db.Especialidad.Find(id);
-            if (Especialidad == null)
+            Enfermera Enfermera = db.Enfermera.Find(id);
+            if (Enfermera == null)
             {
                 return NotFound();
             }
 
-            return Ok(Especialidad);
+            return Ok(Enfermera);
         }
 
         [HttpPut]
         [Route("{id}")]
-        // PUT: api/Especialidads/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutEspecialidad(int id, Especialidad Especialidad)
+        public IHttpActionResult PutEnfermera(int id, Enfermera Enfermera)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(Constantes.MensajeError);
+                return BadRequest(ModelState);
             }
 
-            if (id != Especialidad.idEspecialidad)
+            if (id != Enfermera.idUsuario)
             {
-                return BadRequest(Constantes.MensajeError);
+                return BadRequest();
             }
 
-            db.Entry(Especialidad).State = EntityState.Modified;
+            db.Entry(Enfermera).State = EntityState.Modified;
 
             try
             {
@@ -63,7 +62,7 @@ namespace AgendamientoCitas.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EspecialidadExists(id))
+                if (!EnfermeraExists(id))
                 {
                     return NotFound();
                 }
@@ -78,32 +77,47 @@ namespace AgendamientoCitas.Controllers
 
         [HttpPost]
         [Route("")]
-        // POST: api/Especialidads
-        [ResponseType(typeof(Especialidad))]
-        public IHttpActionResult PostEspecialidad(Especialidad Especialidad)
+        [ResponseType(typeof(Enfermera))]
+        public IHttpActionResult PostEnfermera(Enfermera Enfermera)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Especialidad.Add(Especialidad);
-            db.SaveChanges();
+            db.Enfermera.Add(Enfermera);
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                if (EnfermeraExists(Enfermera.idUsuario))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return Ok(new MensajesWeb(Constantes.MensajeExitoPost));
         }
+
         [HttpDelete]
         [Route("{id}")]
-        [ResponseType(typeof(Especialidad))]
-        public IHttpActionResult DeleteEspecialidad(int id)
+        [ResponseType(typeof(Enfermera))]
+        public IHttpActionResult DeleteEnfermera(int id)
         {
-            Especialidad Especialidad = db.Especialidad.Find(id);
-            if (Especialidad == null)
+            Enfermera Enfermera = db.Enfermera.Find(id);
+            if (Enfermera == null)
             {
                 return NotFound();
             }
 
-            db.Especialidad.Remove(Especialidad);
+            db.Enfermera.Remove(Enfermera);
             db.SaveChanges();
 
             return Ok(new MensajesWeb(Constantes.MensajeExitoDelete));
@@ -118,9 +132,9 @@ namespace AgendamientoCitas.Controllers
             base.Dispose(disposing);
         }
 
-        private bool EspecialidadExists(int id)
+        private bool EnfermeraExists(int id)
         {
-            return db.Especialidad.Count(e => e.idEspecialidad == id) > 0;
+            return db.Enfermera.Count(e => e.idUsuario == id) > 0;
         }
     }
 }

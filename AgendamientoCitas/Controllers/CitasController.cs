@@ -13,49 +13,48 @@ using AgendamientoCitas.Models.Clases;
 
 namespace AgendamientoCitas.Controllers
 {
-    [RoutePrefix("Especialidad")]
-    public class EspecialidadsController : ApiController
+    [RoutePrefix("Citas")]
+    public class CitasController : ApiController
     {
         private HospitalDB db = new HospitalDB();
 
         [HttpGet]
         [Route("")]
-        public IQueryable<Especialidad> GetEspecialidad()
+        public IQueryable<Cita> GetCita()
         {
-            return db.Especialidad;
+            return db.Cita;
         }
+
         [HttpGet]
         [Route("{id}")]
-        // GET: api/Especialidads/5
-        [ResponseType(typeof(Especialidad))]
-        public IHttpActionResult GetEspecialidad(int id)
+        [ResponseType(typeof(Cita))]
+        public IHttpActionResult GetCita(int id)
         {
-            Especialidad Especialidad = db.Especialidad.Find(id);
-            if (Especialidad == null)
+            Cita Cita = db.Cita.Find(id);
+            if (Cita == null)
             {
                 return NotFound();
             }
 
-            return Ok(Especialidad);
+            return Ok(Cita);
         }
 
         [HttpPut]
         [Route("{id}")]
-        // PUT: api/Especialidads/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutEspecialidad(int id, Especialidad Especialidad)
+        public IHttpActionResult PutCita(int id, Cita Cita)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(Constantes.MensajeError);
+                return BadRequest(ModelState);
             }
 
-            if (id != Especialidad.idEspecialidad)
+            if (id != Cita.idCita)
             {
-                return BadRequest(Constantes.MensajeError);
+                return BadRequest();
             }
 
-            db.Entry(Especialidad).State = EntityState.Modified;
+            db.Entry(Cita).State = EntityState.Modified;
 
             try
             {
@@ -63,7 +62,7 @@ namespace AgendamientoCitas.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EspecialidadExists(id))
+                if (!CitaExists(id))
                 {
                     return NotFound();
                 }
@@ -78,32 +77,32 @@ namespace AgendamientoCitas.Controllers
 
         [HttpPost]
         [Route("")]
-        // POST: api/Especialidads
-        [ResponseType(typeof(Especialidad))]
-        public IHttpActionResult PostEspecialidad(Especialidad Especialidad)
+        [ResponseType(typeof(Cita))]
+        public IHttpActionResult PostCita(Cita Cita)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Especialidad.Add(Especialidad);
+            db.Cita.Add(Cita);
             db.SaveChanges();
 
             return Ok(new MensajesWeb(Constantes.MensajeExitoPost));
         }
+
         [HttpDelete]
         [Route("{id}")]
-        [ResponseType(typeof(Especialidad))]
-        public IHttpActionResult DeleteEspecialidad(int id)
+        [ResponseType(typeof(Cita))]
+        public IHttpActionResult DeleteCita(int id)
         {
-            Especialidad Especialidad = db.Especialidad.Find(id);
-            if (Especialidad == null)
+            Cita Cita = db.Cita.Find(id);
+            if (Cita == null)
             {
                 return NotFound();
             }
 
-            db.Especialidad.Remove(Especialidad);
+            db.Cita.Remove(Cita);
             db.SaveChanges();
 
             return Ok(new MensajesWeb(Constantes.MensajeExitoDelete));
@@ -118,9 +117,9 @@ namespace AgendamientoCitas.Controllers
             base.Dispose(disposing);
         }
 
-        private bool EspecialidadExists(int id)
+        private bool CitaExists(int id)
         {
-            return db.Especialidad.Count(e => e.idEspecialidad == id) > 0;
+            return db.Cita.Count(e => e.idCita == id) > 0;
         }
     }
 }

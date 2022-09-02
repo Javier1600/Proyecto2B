@@ -7,7 +7,7 @@ namespace AgendamientoCitas.Models
     using System.Data.Entity.Spatial;
 
     [Table("tblCita")]
-    public partial class tblCita
+    public partial class Cita
     {
         [Key]
         public int idCita { get; set; }
@@ -23,8 +23,5 @@ namespace AgendamientoCitas.Models
 
         public bool? diponibilidad { get; set; }
 
-        public virtual tblDoctor tblDoctor { get; set; }
-
-        public virtual Usuario tblUsuario { get; set; }
     }
 }

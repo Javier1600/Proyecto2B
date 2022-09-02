@@ -12,7 +12,7 @@ namespace AgendamientoCitas.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Especialidad()
         {
-            tblDoctor = new HashSet<tblDoctor>();
+
         }
 
         [Key]
@@ -20,7 +20,5 @@ namespace AgendamientoCitas.Models
 
         public string nombreEspecialidad { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblDoctor> tblDoctor { get; set; }
     }
 }
