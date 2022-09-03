@@ -39,6 +39,47 @@ namespace AgendamientoCitas.Controllers
             return Ok(Cita);
         }
 
+        [HttpGet]
+        [Route("Paciente/{idPaciente}")]
+        [ResponseType(typeof(Cita))]
+        public IHttpActionResult GetCitasPaciente(int idPaciente)
+        {
+            var citas = db.Cita.Where(x => x.idPaciente==idPaciente).ToList();
+            if (citas == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(citas);
+        }
+
+        [HttpGet]
+        [Route("{idEspecialidad}/Fecha")]
+        [ResponseType(typeof(Cita))]
+        public IHttpActionResult GetCitaFecha(int idEspecialidad)
+        {
+            var dateTime = Request.GetQueryNameValuePairs().Where(m => m.Key == "fecha" ).SingleOrDefault();
+            DateTime dt = Convert.ToDateTime(dateTime.Value);
+            var docs = db.Doctor.Where(x=> x.idEspecialidad == idEspecialidad).ToList();
+            var citasFecha = db.Cita.Where(x => x.fecha == dt ).ToList();
+            var citas = new List<Cita>();
+            foreach(var c in citasFecha)
+            {
+                foreach(var d in docs)
+                {
+                    if (c.idDoctor == d.idUsuario)
+                        citas.Add(c);
+                }
+            }
+            
+            if (citas == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(citas);
+        }
+
         [HttpPut]
         [Route("{id}")]
         [ResponseType(typeof(void))]

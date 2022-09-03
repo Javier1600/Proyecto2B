@@ -25,7 +25,7 @@ namespace AgendamientoCitas.Controllers
                 return BadRequest("Datos Erroneos");
             else { 
                 Rol rol = db.Rol.FirstOrDefault(x => x.idRol == usuario.idRol);
-                return Ok(new { Message = "Usuario autenticado", Usuario = usuario, Rol = rol });
+                return Ok( usuario);
             }
 
         }

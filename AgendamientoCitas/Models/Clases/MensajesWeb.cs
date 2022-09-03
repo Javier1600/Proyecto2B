@@ -13,6 +13,6 @@ namespace AgendamientoCitas.Models.Clases
         }
 
         public string Mensaje { get; set; }
-
+        
     }
 }
